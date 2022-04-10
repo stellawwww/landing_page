@@ -28,91 +28,70 @@ const sections = document.querySelectorAll('section');
 
 /**
  * End Global Variables
- * Start Helper Functions
+ * Start Main Functions
  * 
 */
 
 
-
-/**
- * End Helper Functions
- * Begin Main Functions
+/**  
+ * build the nav
  * 
 */
-
-
-
-// build the nav
 const sections_array = Array.from(sections);
 
-function createNavBar(){
-for (const section of sections_array){
-    sectionName = section.getAttribute('data-nav');
-    sectionLink = section.getAttribute('id');
-    li= document.createElement("li");
-    // li.classList.add('menu__link');
-    li.classList.add('navbar__menu');
+function createNavBar() {
+    for (const section of sections_array) {
+        sectionName = section.getAttribute('data-nav');
+        sectionLink = section.getAttribute('id');
+        li = document.createElement("li");
+        // li.classList.add('menu__link');
+        li.classList.add('navbar__menu');
 
-    const a_tag = document.createElement("a");
-    a_tag.href = `#${sectionLink}`;
-    a_tag.innerHTML=sectionName; 
-    console.log(a_tag);
-    li.appendChild(a_tag);
-    navigation.appendChild(li);  
-    // scroll to section when link is clicked
-    anchorScroll(li, section);
-}}
-
-
-
-// Add class 'active' to section when near top of viewport
-
-
-// I first used below as the function to check viewport, but after reading Udacity Answer https://knowledge.udacity.com/questions/778965
-// I think the way listed there makes more sense (could be use in all cases)
-
-const  Check_viewport= function (elem) {
-	const distance = elem.getBoundingClientRect();
-	return (
-		distance.top >= 0 &&
-		distance.left >= 0 &&
-		distance.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-		distance.right <= (window.innerWidth || document.documentElement.clientWidth)
-	);
+        const a_tag = document.createElement("a");
+        a_tag.href = `#${sectionLink}`;
+        a_tag.innerHTML = sectionName;
+        console.log(a_tag);
+        li.appendChild(a_tag);
+        navigation.appendChild(li);
+        // scroll to section when link is clicked
+        anchorScroll(li, section);
+    };
 };
 
-// function Check_viewport(element){
-//     const elementPosition= element.getBoundingClientRect();
-//     if (elementPosition.top>=0){
-//         return true;
-//     } ;//means in the viewport
-        
-// }
+
+/** Add class 'active' to section when near top of viewport */
+
+const Check_viewport = (elem) => {
+    const distance = elem.getBoundingClientRect();
+    return (
+        distance.top >= 0 &&
+        distance.left >= 0 &&
+        distance.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        distance.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
 
 
 
-function sectionActivation(){
-    for (const section of sections_array){
+function sectionActivation() {
+    for (const section of sections_array) {
         section.classList.remove('your-active-class');
-        if (Check_viewport(section)){
+        if (Check_viewport(section)) {
             section.classList.add('your-active-class');
 
         };
-    }
-}
+    };
+};
 
 
+/**Scroll to anchor ID using scrollTO event*/
 
-
-// Scroll to anchor ID using scrollTO event
-
-// Smooth Scrolling
-// sections.setAttribute('scroll-behavior','smooth');
-function anchorScroll(navbar, section){
-    navbar.addEventListener("click", function(event){
+function anchorScroll(navbar, section) {
+    navbar.addEventListener("click", function (event) {
         event.preventDefault();
-        section.scrollIntoView({behavior:"smooth"})});
-}
+        section.scrollIntoView({ behavior: "smooth" })
+    });
+};
 
 
 /**
@@ -121,12 +100,10 @@ function anchorScroll(navbar, section){
  * 
 */
 
-// Build menu and add href to tags
-
+/** Build menu and add href to tags*/
 createNavBar();
 
 
-// Set sections as active
-//we want to run the function whenever we scroll 
+/**Set sections as active*/
 window.addEventListener('scroll', sectionActivation);
 
